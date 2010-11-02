@@ -1,24 +1,46 @@
+package census;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class CensusTest {
+import census.Census;
+import census.Voter;
+
+import junit.framework.TestCase;
+
+import static org.mockito.Mockito.*;
+
+public class CensusTest extends TestCase {
+	
 	public void testCensus() {
+		// Component under test
 		Census census = new Census();
+		Set<Voter> voters = new HashSet<Voter>();
+		Voter mockVoter;
 		
 		// Test case 1
-		Set<Voter> voters = new HashSet<Voter>();
-		voters.add(new Voter()); // need for mock objects
-		voters.add(new Voter());
-		System.out.println(census.census(voters)); // false
+		mockVoter = mock(Voter.class);
+		when(mockVoter.vote()).thenReturn(true);
+		voters.add(mockVoter);
 		
+		mockVoter = mock(Voter.class);
+		when(mockVoter.vote()).thenReturn(true);
+		voters.add(mockVoter);
+		
+		assertTrue(census.census(voters));
+		
+		for (Voter mock : voters) {
+			verify(mock, times(1)).vote();
+		}
+		/*
 		// Test case 2
 		voters.clear();
 		voters.add(new Voter());
 		voters.add(new Voter());
 		voters.add(new Voter());
 		voters.add(new Voter());
-		System.out.println(census.census(voters)); // true
-		
+		assertFalse(census.census(voters));
+
 		// Test case 3
 		voters.clear();
 		voters.add(new Voter());
@@ -41,5 +63,6 @@ public class CensusTest {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		*/
 	}
 }

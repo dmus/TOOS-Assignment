@@ -1,7 +1,5 @@
 package census;
 
-public class Voter {
-	public boolean vote() {
-		return true;
-	}
+public interface Voter {
+	public boolean vote();
 }

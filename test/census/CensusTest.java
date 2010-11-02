@@ -1,68 +1,89 @@
 package census;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import census.Census;
-import census.Voter;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-
-import static org.mockito.Mockito.*;
-
-public class CensusTest extends TestCase {
+public class CensusTest {
 	
+	/**
+	 * Component under test
+	 */
+	private Census census;
+	
+	private Voter getMockVoter(boolean vote) {
+		Voter mockVoter = mock(Voter.class);
+		when(mockVoter.vote()).thenReturn(vote);
+		
+		return mockVoter;
+	}
+	
+	@Before
+	public void setUp() {
+		census = new Census();
+	}
+	
+	@Test
 	public void testCensus() {
-		// Component under test
-		Census census = new Census();
 		Set<Voter> voters = new HashSet<Voter>();
-		Voter mockVoter;
-		
-		// Test case 1
-		mockVoter = mock(Voter.class);
-		when(mockVoter.vote()).thenReturn(true);
-		voters.add(mockVoter);
-		
-		mockVoter = mock(Voter.class);
-		when(mockVoter.vote()).thenReturn(true);
-		voters.add(mockVoter);
+		voters.add(getMockVoter(true));
+		voters.add(getMockVoter(true));
+		voters.add(getMockVoter(true));
 		
 		assertTrue(census.census(voters));
 		
 		for (Voter mock : voters) {
 			verify(mock, times(1)).vote();
 		}
-		/*
-		// Test case 2
-		voters.clear();
-		voters.add(new Voter());
-		voters.add(new Voter());
-		voters.add(new Voter());
-		voters.add(new Voter());
+	}
+		
+	@Test
+	public void testWithFalseVoters() {
+		Set<Voter> voters = new HashSet<Voter>();
+		voters.add(getMockVoter(true));
+		voters.add(getMockVoter(true));
+		voters.add(getMockVoter(true));
+		voters.add(getMockVoter(false));
+		voters.add(getMockVoter(true));
+		
 		assertFalse(census.census(voters));
-
-		// Test case 3
-		voters.clear();
-		voters.add(new Voter());
+		
+		for (Voter mock : voters) {
+			verify(mock, times(1)).vote();
+		}
+	}
+		
+	@Test(expected=NullPointerException.class)
+	public void testWithNullElementInSet() {
+		Set<Voter> voters = new HashSet<Voter>();
+		voters.add(getMockVoter(true));
+		voters.add(getMockVoter(false));
 		voters.add(null);
-		voters.add(new Voter());
-		try {
-			System.out.println(census.census(voters)); // exception
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
 		
-		// Test case 4
-		voters.clear();
-		System.out.println(census.census(voters)); // true
+		census.census(voters);
 		
-		// Test case 5
-		voters = null;
-		try {
-			System.out.println(census.census(voters)); // exception
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		for (Voter mock : voters) {
+			verify(mock, times(1)).vote();
 		}
-		*/
+	}
+	
+	@Test
+	public void testWithEmptySet() {
+		Set<Voter> voters = new HashSet<Voter>();
+		assertTrue(census.census(voters));
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testWithNullValue() {
+		census.census(null);
 	}
 }

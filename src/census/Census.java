@@ -8,15 +8,15 @@ public class Census {
 	/**
 	 * Return true if and only if all voters in set
 	 * vote true. Each voter must be called exactly
-	 * one time.
+	 * once.
 	 * 
 	 * @param voters
-	 * @return
+	 * @return Conjunction of all the votes
 	 */
 	public boolean census(Set<Voter> voters) {
 		boolean census = true;
 		for (Voter voter : voters) {
-			census = census && voter.vote();
+			census = census & voter.vote();
 		}
 		
 		return census;

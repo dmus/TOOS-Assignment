@@ -47,7 +47,7 @@ public class CensusTest {
 	}
 		
 	@Test
-	public void testWithFalseVoters() {
+	public void testNoCensusWithFalseVoters() {
 		Set<Voter> voters = new HashSet<Voter>();
 		voters.add(getMockVoter(true));
 		voters.add(getMockVoter(true));
@@ -63,7 +63,7 @@ public class CensusTest {
 	}
 		
 	@Test(expected=NullPointerException.class)
-	public void testWithNullElementInSet() {
+	public void testNullElementInSetRaisesException() {
 		Set<Voter> voters = new HashSet<Voter>();
 		voters.add(getMockVoter(true));
 		voters.add(getMockVoter(false));
@@ -77,13 +77,13 @@ public class CensusTest {
 	}
 	
 	@Test
-	public void testWithEmptySet() {
+	public void testEmptySetIsCensus() {
 		Set<Voter> voters = new HashSet<Voter>();
 		assertTrue(census.census(voters));
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testWithNullValue() {
+	public void testNullValueRaisesException() {
 		census.census(null);
 	}
 }

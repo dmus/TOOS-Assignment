@@ -77,7 +77,7 @@ public class CensusTest {
 	}
 	
 	@Test
-	public void testEmptySetIsCensus() {
+	public void testEmptySetMeansCensus() {
 		Set<Voter> voters = new HashSet<Voter>();
 		assertTrue(census.census(voters));
 	}

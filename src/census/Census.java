@@ -6,7 +6,7 @@ import java.util.Set;
 public class Census {	
 	
 	/**
-	 * Return true if and only if all voters in set
+	 * Returns true if and only if all voters in set
 	 * vote true. Each voter must be called exactly
 	 * once.
 	 * 

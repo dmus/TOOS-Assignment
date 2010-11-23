@@ -61,6 +61,23 @@ public class CensusTest {
 			verify(mock, times(1)).vote();
 		}
 	}
+	
+	/**
+	 * Test needed to test lazy evaluation
+	 */
+	@Test
+	public void testNoCensusWithFalseVoters2() {
+		Set<Voter> voters = new HashSet<Voter>();
+		voters.add(getMockVoter(false));
+		voters.add(getMockVoter(false));
+		voters.add(getMockVoter(false));
+		
+		assertFalse(census.census(voters));
+		
+		for (Voter mock : voters) {
+			verify(mock, times(1)).vote();
+		}
+	}
 		
 	@Test(expected=NullPointerException.class)
 	public void testNullElementInSetRaisesException() {
